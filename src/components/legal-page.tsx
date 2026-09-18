@@ -11,7 +11,7 @@ export function LegalPage({
 }) {
   return (
     <BlueSkillsShell>
-      <article className="border border-(--rule-2) bg-(--panel)">
+      <article className="border border-(--rule) bg-(--panel)">
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-(--rule) px-4 py-3 sm:px-5">
           <h2 className="font-serif text-[31px] leading-none font-normal tracking-[0.005em] sm:text-[38px]">
             {title}

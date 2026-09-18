@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { Providers } from '@/app/providers'
 import './globals.css'
 
 const geistMono = Geist_Mono({
@@ -27,7 +28,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

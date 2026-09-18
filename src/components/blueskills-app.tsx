@@ -5,16 +5,23 @@ import {
   FormEvent,
   KeyboardEvent,
   ReactNode,
+  useEffect,
   useId,
   useMemo,
   useRef,
   useState,
   useSyncExternalStore,
 } from 'react'
-import type { ReportState, SubmissionMode } from '@/lib/blueskills'
+import type { SubmissionMode, SubmissionSnapshot } from '@/lib/blueskills'
 import { formatBytes } from '@/lib/blueskills'
 import { ReportView } from '@/components/report-view'
+import { TurnstileWidget } from '@/components/turnstile-widget'
 import { EXAMPLES } from '@/lib/examples'
+import { TURNSTILE_SITE_KEY } from '@/lib/blueskills-api'
+import {
+  type ScanProgressState,
+  useBlueSkillsScan,
+} from '@/hooks/use-blueskills-scan'
 import Link from 'next/link'
 
 type ThemeChoice = 'system' | 'light' | 'dark'
@@ -52,9 +59,9 @@ interface Limits {
 
 interface BlueSkillsAppProps {
   limits: Limits
-  reportState?: ReportState | null
-  progressStatus?: string | null
 }
+
+type SubmissionDraft = Omit<SubmissionSnapshot, 'requestId'>
 
 const TABS: Array<{ id: SubmissionMode; label: string }> = [
   { id: 'paste', label: 'Paste SKILL.md' },
@@ -187,10 +194,24 @@ function ProductHeader({
 
 function SubmissionForm({
   limits,
-  onReadySubmission,
+  onSubmitDraft,
+  isBusy,
+  isSubmitting,
+  turnstileToken,
+  turnstileError,
+  turnstileResetKey,
+  onTurnstileTokenChange,
+  onTurnstileErrorChange,
 }: {
   limits: Limits
-  onReadySubmission: (source: string) => void
+  onSubmitDraft: (draft: SubmissionDraft) => void
+  isBusy: boolean
+  isSubmitting: boolean
+  turnstileToken: string | null
+  turnstileError: string | null
+  turnstileResetKey: number
+  onTurnstileTokenChange: (token: string | null) => void
+  onTurnstileErrorChange: (message: string | null) => void
 }) {
   const [activeTab, setActiveTab] = useState<SubmissionMode>('paste')
   const [paste, setPaste] = useState('')
@@ -257,7 +278,12 @@ function SubmissionForm({
           'paste'
         )
       }
-      onReadySubmission('pasted SKILL.md')
+      onSubmitDraft({
+        mode: 'paste',
+        source: 'Pasted SKILL.md',
+        kind: 'Pasted instructions',
+        text: paste,
+      })
       return
     }
 
@@ -277,7 +303,12 @@ function SubmissionForm({
       } catch {
         return fail('Enter a complete public repository URL.', 'repo')
       }
-      onReadySubmission(repoUrl.trim())
+      onSubmitDraft({
+        mode: 'repo',
+        source: repoUrl.trim(),
+        kind: 'Public repository URL',
+        url: repoUrl.trim(),
+      })
       return
     }
 
@@ -291,15 +322,20 @@ function SubmissionForm({
         'zip'
       )
     }
-    onReadySubmission(file.name)
+    onSubmitDraft({ mode: 'zip', source: file.name, kind: 'ZIP package', file })
   }
 
-  const actionLabel =
-    activeTab === 'paste'
-      ? 'Scan pasted skill'
-      : activeTab === 'repo'
-        ? 'Fetch & scan repository'
-        : 'Upload & scan package'
+  const actionLabel = isSubmitting
+    ? 'Submitting…'
+    : isBusy
+      ? 'Scan in progress'
+      : !turnstileToken
+        ? 'Complete human check'
+        : activeTab === 'paste'
+          ? 'Scan pasted skill'
+          : activeTab === 'repo'
+            ? 'Fetch & scan repository'
+            : 'Upload & scan package'
 
   return (
     <section
@@ -486,6 +522,36 @@ function SubmissionForm({
           </p>
         )}
 
+        <section
+          aria-labelledby="human-check-heading"
+          className="mt-4 border-t border-(--rule) pt-4"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="max-w-[52ch]">
+              <h3 id="human-check-heading" className="text-sm font-medium">
+                Human verification
+              </h3>
+              <p
+                className="mt-1 text-xs leading-5 text-(--ink-3)"
+                aria-live="polite"
+              >
+                {turnstileError ||
+                  (turnstileToken
+                    ? 'Human check complete. The next submission is ready.'
+                    : 'Complete the check before submitting a scan.')}
+              </p>
+            </div>
+            <div className="w-full min-w-0 sm:max-w-75">
+              <TurnstileWidget
+                siteKey={TURNSTILE_SITE_KEY}
+                resetKey={turnstileResetKey}
+                onTokenChange={onTurnstileTokenChange}
+                onErrorChange={onTurnstileErrorChange}
+              />
+            </div>
+          </div>
+        </section>
+
         <div className="mt-5 flex flex-col items-stretch justify-between gap-3 border-t border-(--rule) pt-4 sm:flex-row sm:items-center">
           <p className="m-0 max-w-[66ch] text-xs leading-5 text-(--ink-3) sm:text-sm">
             Submit public skill content only. Do not include secrets or private
@@ -493,12 +559,63 @@ function SubmissionForm({
           </p>
           <button
             type="submit"
-            className="min-h-12 shrink-0 border border-(--fill-bg) bg-(--fill-bg) px-4 py-2.5 text-sm font-medium text-(--fill-text) transition-colors hover:bg-transparent hover:text-(--ink)"
+            disabled={isBusy || !turnstileToken}
+            className="min-h-12 shrink-0 border border-(--fill-bg) bg-(--fill-bg) px-4 py-2.5 text-sm font-medium text-(--fill-text) transition-colors hover:bg-transparent hover:text-(--ink) disabled:cursor-not-allowed disabled:border-(--control-rule) disabled:bg-(--panel-2) disabled:text-(--ink-3)"
           >
             {actionLabel}
           </button>
         </div>
       </form>
+    </section>
+  )
+}
+
+function ScanProgress({ progress }: { progress: ScanProgressState }) {
+  return (
+    <section
+      aria-labelledby="scan-progress-heading"
+      className="border border-(--rule) bg-(--panel)"
+    >
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-(--rule) px-4 py-3 sm:px-5">
+        <h2
+          id="scan-progress-heading"
+          className="font-serif text-2xl leading-none font-normal"
+        >
+          Scan in progress
+        </h2>
+        <span className="text-xs tracking-[0.04em] text-(--ink-3) uppercase">
+          {progress.status.replaceAll('_', ' ')}
+        </span>
+      </header>
+      <dl className="grid bg-(--panel-2) sm:grid-cols-2">
+        <div className="min-w-0 px-4 py-3 sm:border-r sm:border-(--rule) sm:px-5">
+          <dt className="text-xs text-(--ink-3)">Submitted</dt>
+          <dd className="mt-1 text-sm wrap-anywhere">
+            {progress.snapshot.source}
+          </dd>
+        </div>
+        <div className="border-t border-(--rule) px-4 py-3 sm:border-t-0 sm:px-5">
+          <dt className="text-xs text-(--ink-3)">Kind</dt>
+          <dd className="mt-1 text-sm">{progress.snapshot.kind}</dd>
+        </div>
+      </dl>
+      <div className="border-t border-(--rule) p-4 sm:p-5">
+        <p className="font-medium" aria-live="polite">
+          {progress.connectionPaused
+            ? 'Waiting for the connection to return'
+            : progress.label}
+        </p>
+        <p className="mt-1 max-w-[75ch] text-sm text-(--ink-3)">
+          This submitted source record stays fixed while you edit the form
+          above.
+        </p>
+        <div
+          className="mt-4 h-1 overflow-hidden bg-(--panel-2)"
+          aria-hidden="true"
+        >
+          <div className="blueskills-progress h-full w-1/3 bg-(--ink)" />
+        </div>
+      </div>
     </section>
   )
 }
@@ -607,50 +724,76 @@ export function BlueSkillsShell({ children }: { children: ReactNode }) {
   )
 }
 
-export function BlueSkillsApp({
-  limits,
-  reportState = null,
-  progressStatus = null,
-}: BlueSkillsAppProps) {
-  const [integrationNotice, setIntegrationNotice] = useState<string | null>(
-    null
-  )
+export function BlueSkillsApp({ limits }: BlueSkillsAppProps) {
+  const scan = useBlueSkillsScan()
+  const requestIdRef = useRef(0)
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileError, setTurnstileError] = useState<string | null>(null)
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
+  const activeRequestId = scan.snapshot?.requestId
+
+  useEffect(() => {
+    if (activeRequestId === undefined) return
+    const frame = requestAnimationFrame(() => {
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
+      resultsRef.current?.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [activeRequestId])
+
+  const consumeTurnstileToken = () => {
+    const token = turnstileToken
+    if (!token) return null
+    setTurnstileToken(null)
+    setTurnstileError(null)
+    setTurnstileResetKey((value) => value + 1)
+    return token
+  }
+
+  const submitDraft = (draft: SubmissionDraft) => {
+    const token = consumeTurnstileToken()
+    if (!token) return
+    requestIdRef.current += 1
+    scan.submit({ ...draft, requestId: requestIdRef.current }, token)
+  }
+
+  const retryOriginal = () => {
+    const token = consumeTurnstileToken()
+    if (!token) return
+    scan.retry(token)
+  }
 
   return (
     <BlueSkillsShell>
       <SubmissionForm
         limits={limits}
-        onReadySubmission={(source) =>
-          setIntegrationNotice(
-            `${source} is ready. API integration is intentionally deferred; no scan was submitted and no report was generated.`
-          )
-        }
+        onSubmitDraft={submitDraft}
+        isBusy={scan.isBusy}
+        isSubmitting={scan.isSubmitting}
+        turnstileToken={turnstileToken}
+        turnstileError={turnstileError}
+        turnstileResetKey={turnstileResetKey}
+        onTurnstileTokenChange={setTurnstileToken}
+        onTurnstileErrorChange={setTurnstileError}
       />
 
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
-        {integrationNotice || ''}
-      </p>
-
-      {integrationNotice && (
-        <aside className="coverage-hatch border border-(--neutral-border) bg-(--neutral-bg) p-4 text-sm text-(--neutral-fg)">
-          <p className="font-medium">Scanner connection pending</p>
-          <p className="mt-1 text-pretty text-(--ink-2)">{integrationNotice}</p>
-        </aside>
+      {(scan.progress || scan.reportState) && (
+        <div ref={resultsRef} className="scroll-mt-3">
+          {scan.progress && <ScanProgress progress={scan.progress} />}
+          {scan.reportState && (
+            <ReportView
+              state={scan.reportState}
+              onRetry={turnstileToken ? retryOriginal : undefined}
+            />
+          )}
+        </div>
       )}
-
-      {progressStatus && (
-        <section
-          aria-label="Scan progress"
-          className="border border-(--rule-2) bg-(--panel) p-4"
-        >
-          <p className="font-medium">{progressStatus}</p>
-          <div className="mt-3 h-1 overflow-hidden bg-(--panel-2)">
-            <div className="blueskills-progress h-full w-1/3 bg-(--ink)" />
-          </div>
-        </section>
-      )}
-
-      {reportState && <ReportView state={reportState} />}
 
       <CoveragePrimer />
     </BlueSkillsShell>
