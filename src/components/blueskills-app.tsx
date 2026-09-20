@@ -81,12 +81,9 @@ function BrandAttribution({
   showIcon?: boolean
 }) {
   return (
-    <a
-      href="https://bluethroatlabs.com"
-      target="_blank"
-      rel="noreferrer"
+    <div
       className={cx(
-        'inline-flex items-center gap-2 text-(--ink-3) underline decoration-(--rule) underline-offset-4 transition-colors hover:text-(--ink)',
+        'inline-flex items-center gap-2 text-(--ink-3)',
         compact ? 'text-xs' : 'text-[13px]'
       )}
     >
@@ -107,7 +104,7 @@ function BrandAttribution({
         height={22}
         className={cx('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
       />
-    </a>
+    </div>
   )
 }
 
