@@ -97,13 +97,15 @@ function BrandAttribution({
         />
       )}
       <span>A public good by</span>
-      <Image
-        src="/assets/bluethroat-wordmark.svg"
-        alt="Bluethroat Labs"
-        width={155}
-        height={22}
-        className={cx('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
-      />
+      <a href="https://bluethroatlabs.com" target="_blank">
+        <Image
+          src="/assets/bluethroat-wordmark.svg"
+          alt="Bluethroat Labs"
+          width={155}
+          height={22}
+          className={cx('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
+        />
+      </a>
     </div>
   )
 }
@@ -671,13 +673,13 @@ function Footer() {
         className="flex flex-wrap gap-x-5 gap-y-2"
       >
         {['Privacy', 'Terms', 'Support'].map((label) => (
-          <a
+          <Link
             key={label}
             href={`/${label.toLowerCase()}`}
             className="text-(--ink-2) underline decoration-(--rule) underline-offset-4 transition-colors hover:text-(--ink)"
           >
             {label}
-          </a>
+          </Link>
         ))}
       </nav>
     </footer>
