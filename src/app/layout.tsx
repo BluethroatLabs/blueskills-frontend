@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { Providers } from '@/app/providers'
 import './globals.css'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/next'
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
@@ -30,6 +32,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body>
         <Providers>{children}</Providers>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
