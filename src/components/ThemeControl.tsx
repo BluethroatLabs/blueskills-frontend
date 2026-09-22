@@ -1,31 +1,51 @@
-import { cn } from 'cn'
 import { useTheme } from 'next-themes'
 
 export const ThemeControl = () => {
-  const { theme: activeTheme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDark = resolvedTheme !== 'light'
 
   return (
-    <div
-      role="group"
-      aria-label="Color theme"
-      className="grid min-h-11 grid-cols-3 border border-(--rule-2)"
+    <button
+      type="button"
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className="grid aspect-square size-full place-items-center text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink)"
     >
-      {(['system', 'light', 'dark'] as const).map((theme, index) => (
-        <button
-          key={theme}
-          type="button"
-          aria-pressed={activeTheme === theme}
-          onClick={() => setTheme(theme)}
-          className={cn(
-            'theme-choice min-w-17 px-2.5 py-1.5 text-sm capitalize transition-colors hover:bg-(--panel-2)',
-            index < 2 && 'border-r border-(--rule)',
-            activeTheme === theme &&
-              'bg-(--fill-bg) text-(--fill-text) hover:bg-(--fill-bg)'
-          )}
+      {isDark ? (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="size-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          {theme}
-        </button>
-      ))}
-    </div>
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+      ) : (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="size-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+        </svg>
+      )}
+    </button>
   )
 }
