@@ -17,9 +17,10 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'BlueSkills — inspect an agent skill before you install it',
+  metadataBase: new URL('https://blueskills.bluethroatlabs.com'),
+  title: 'Scan AI Agent Skills Before Installing | BlueSkills',
   description:
-    'Review an Agent Skill’s instructions, bundled files, and the evidence behind its security verdict.',
+    'Free security scanner for AI agent skills. Check SKILL.md, a public repository, or a ZIP package before installing it. Review findings and scan coverage.',
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

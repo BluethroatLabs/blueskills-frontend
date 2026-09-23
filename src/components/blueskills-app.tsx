@@ -81,9 +81,11 @@ function BrandAttribution({
   showIcon?: boolean
 }) {
   return (
-    <div
+    <a
+      href="https://bluethroatlabs.com/"
+      aria-label="Bluethroat Labs"
       className={cx(
-        'inline-flex items-center gap-2 text-(--ink-3)',
+        'inline-flex items-center gap-2 text-(--ink-3) underline-offset-4 hover:underline',
         compact ? 'text-xs' : 'text-[13px]'
       )}
     >
@@ -104,7 +106,7 @@ function BrandAttribution({
         height={22}
         className={cx('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
       />
-    </div>
+    </a>
   )
 }
 
@@ -144,9 +146,11 @@ function ThemeControl({
 function ProductHeader({
   theme,
   onThemeChange,
+  isHome,
 }: {
   theme: ThemeChoice
   onThemeChange: (theme: ThemeChoice) => void
+  isHome: boolean
 }) {
   return (
     <header className="relative overflow-hidden border border-(--rule-2) bg-(--panel) p-4 sm:p-5">
@@ -165,17 +169,23 @@ function ProductHeader({
               priority
               className="theme-ink shrink-0"
             />
-            <h1 className="font-serif text-[31px] leading-none font-normal tracking-[0.005em] text-(--ink) sm:text-[38px]">
-              BlueSkills
-            </h1>
+            {isHome ? (
+              <h1 className="font-serif text-[31px] leading-none font-normal tracking-[0.005em] text-(--ink) sm:text-[38px]">
+                BlueSkills
+              </h1>
+            ) : (
+              <span className="font-serif text-[31px] leading-none font-normal tracking-[0.005em] text-(--ink) sm:text-[38px]">
+                BlueSkills
+              </span>
+            )}
           </Link>
           <div className="mt-2 sm:mt-2.25 sm:ml-13.5">
             <p className="m-0 text-base text-(--ink)">
               Inspect an agent skill before you install it.
             </p>
             <p className="mt-1 max-w-[52ch] text-sm text-pretty text-(--ink-3)">
-              Review its instructions, bundled files and the evidence behind the
-              verdict.
+              Free security scan for SKILL.md, public repositories and ZIP
+              packages. Read the findings and coverage before deciding.
             </p>
           </div>
         </div>
@@ -662,6 +672,56 @@ function CoveragePrimer() {
   )
 }
 
+function PreInstallGuide() {
+  return (
+    <section className="border border-(--rule) bg-(--panel) p-4 sm:p-5">
+      <h2 className="font-serif text-2xl leading-none font-normal">
+        How do I scan an AI agent skill before installing it?
+      </h2>
+      <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6 text-(--ink-2) marker:text-(--ink)">
+        <li>
+          Get the exact public repository or ZIP you intend to install. Paste
+          SKILL.md only when you want a one-file check.
+        </li>
+        <li>
+          Submit it above, then read the findings and coverage. A CLEAN result
+          means this scan found no supported issue in the material it examined.
+        </li>
+        <li>
+          Review the skill and the access your agent will have. Decide whether
+          to install that same revision.
+        </li>
+      </ol>
+      <p className="mt-4 text-sm leading-6 text-(--ink-2)">
+        Using an agent to install skills?{' '}
+        <Link href="/for-agents" className="underline underline-offset-4">
+          Give it the pre-install review workflow
+        </Link>
+        .
+      </p>
+      <div className="mt-5 grid gap-4 border-t border-(--rule) pt-5 text-sm leading-6 text-(--ink-2) sm:grid-cols-2">
+        <div>
+          <h3 className="font-medium text-(--ink)">Is BlueSkills free?</h3>
+          <p className="mt-1">
+            Yes. BlueSkills is a free public tool from Bluethroat Labs. The web
+            scanner accepts pasted SKILL.md files, public repository URLs and
+            ZIP packages.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-medium text-(--ink)">
+            Does CLEAN mean a skill is safe?
+          </h3>
+          <p className="mt-1">
+            No. CLEAN describes this scan of the submitted material. It cannot
+            certify behavior on every platform or after the skill changes.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   return (
     <footer className="flex flex-col gap-4 border-t border-(--rule) pt-5 text-sm sm:flex-row sm:items-center sm:justify-between">
@@ -670,6 +730,18 @@ function Footer() {
         aria-label="Policies and support"
         className="flex flex-wrap gap-x-5 gap-y-2"
       >
+        <Link
+          href="/for-agents"
+          className="text-(--ink-2) underline decoration-(--rule) underline-offset-4 transition-colors hover:text-(--ink)"
+        >
+          For agents
+        </Link>
+        <a
+          href="https://github.com/BluethroatLabs/blueskills-public"
+          className="text-(--ink-2) underline decoration-(--rule) underline-offset-4 transition-colors hover:text-(--ink)"
+        >
+          Public repository
+        </a>
         {['Privacy', 'Terms', 'Support'].map((label) => (
           <Link
             key={label}
@@ -684,7 +756,13 @@ function Footer() {
   )
 }
 
-export function BlueSkillsShell({ children }: { children: ReactNode }) {
+export function BlueSkillsShell({
+  children,
+  isHome = false,
+}: {
+  children: ReactNode
+  isHome?: boolean
+}) {
   const themeChoice = useSyncExternalStore<ThemeChoice>(
     subscribeThemeChoice,
     readThemeChoice,
@@ -713,7 +791,11 @@ export function BlueSkillsShell({ children }: { children: ReactNode }) {
       className="min-h-screen bg-(--bg) text-(--ink)"
     >
       <main className="mx-auto flex w-full max-w-270 flex-col gap-3 px-3 pb-18 sm:gap-4.5 sm:px-5">
-        <ProductHeader theme={themeChoice} onThemeChange={chooseTheme} />
+        <ProductHeader
+          theme={themeChoice}
+          onThemeChange={chooseTheme}
+          isHome={isHome}
+        />
         {children}
         <Footer />
       </main>
@@ -767,7 +849,7 @@ export function BlueSkillsApp({ limits }: BlueSkillsAppProps) {
   }
 
   return (
-    <BlueSkillsShell>
+    <BlueSkillsShell isHome>
       <SubmissionForm
         limits={limits}
         onSubmitDraft={submitDraft}
@@ -793,6 +875,7 @@ export function BlueSkillsApp({ limits }: BlueSkillsAppProps) {
       )}
 
       <CoveragePrimer />
+      <PreInstallGuide />
     </BlueSkillsShell>
   )
 }

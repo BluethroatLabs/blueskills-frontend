@@ -181,7 +181,7 @@ summary {
   margin-top: 1.25rem;
 }
 
-.legal-copy h3 {
+.legal-copy h2 {
   color: var(--ink);
   font-family: var(--font-instrument-serif), Georgia, serif;
   font-size: 1.5rem;

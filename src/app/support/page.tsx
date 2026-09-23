@@ -38,7 +38,7 @@ export default function SupportPage() {
       </p>
 
       <section>
-        <h3>Retention</h3>
+        <h2>Retention</h2>
         <ul className="mt-3">
           <li>
             Work artifacts (<code>input.zip</code> and sandbox{' '}

@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <p>BlueSkills is operated by Bluethroat Labs.</p>
 
       <section>
-        <h3>What we collect</h3>
+        <h2>What we collect</h2>
         <ul className="mt-3">
           <li>
             The skill you submit (pasted <code>SKILL.md</code>, uploaded{' '}
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h3>What we do not want</h3>
+        <h2>What we do not want</h2>
         <p className="mt-3">
           Do not upload secrets, API keys, private keys, <code>.env</code> files
           with real credentials, or private repository or private package
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h3>Subprocessors</h3>
+        <h2>Subprocessors</h2>
         <ul className="mt-3">
           <li>Telegram (bot delivery)</li>
           <li>OpenRouter (optional embedding, judge, and executor models)</li>
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h3>Retention</h3>
+        <h2>Retention</h2>
         <ul className="mt-3">
           <li>
             Work artefacts (<code>input.zip</code> and sandbox{' '}
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h3>Contact</h3>
+        <h2>Contact</h2>
         <p className="mt-3">
           Use /support on the bot, or the Support page on the website.
         </p>
