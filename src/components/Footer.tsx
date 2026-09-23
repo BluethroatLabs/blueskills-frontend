@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { BrandAttribution } from './BrandAttribution'
 
 const FOOTER_LINKS = [
-  { name: 'Telegram Bot', href: 'https://t.me/BluehroatLabsBot' },
   { name: 'Privacy', href: '/privacy' },
   { name: 'Terms', href: '/terms' },
   { name: 'Support', href: '/support' },

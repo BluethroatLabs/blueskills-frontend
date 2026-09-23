@@ -35,7 +35,7 @@ export const SiteHeader = () => {
           About
         </a>
         <a
-          href="https://t.me/BluehroatLabsBot"
+          href="https://t.me/BluethroatLabsBot"
           target="_blank"
           rel="noreferrer"
           className="flex items-center border-l border-(--rule) px-4 text-sm text-nowrap text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
