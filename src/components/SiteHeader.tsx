@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { AboutDialog } from './AboutDialog'
 import { ThemeControl } from './ThemeControl'
 
 export const SiteHeader = () => {
@@ -28,12 +29,7 @@ export const SiteHeader = () => {
       </a>
 
       <div className="flex min-h-14 w-full items-stretch justify-end sm:ml-auto sm:w-auto md:min-h-16 xl:min-h-18">
-        <a
-          href="https://bluethroatlabs.com"
-          className="flex items-center border-l border-(--rule) px-4 text-sm font-semibold text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
-        >
-          About
-        </a>
+        <AboutDialog />
         <a
           href="https://t.me/BluethroatLabsBot"
           target="_blank"
