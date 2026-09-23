@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const ProductHeader = () => {
   return (
-    <header className="relative mt-4 overflow-hidden border-y border-(--rule) bg-(--bg) p-4 sm:p-5">
+    <header className="relative mt-4 overflow-hidden border-y border-(--rule) bg-(--panel) p-4 sm:p-5">
       <div
         aria-hidden="true"
         className="theme-grain pointer-events-none absolute inset-0 bg-size-[320px]"

@@ -21,7 +21,6 @@ export function Providers({ children }: { children: ReactNode }) {
       attribute="data-theme"
       defaultTheme="dark"
       enableSystem={false}
-      themes={['light', 'dark']}
       disableTransitionOnChange
       storageKey="blueskills-theme"
     >

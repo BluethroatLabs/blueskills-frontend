@@ -3,7 +3,7 @@ import { ThemeControl } from './ThemeControl'
 
 export const SiteHeader = () => {
   return (
-    <header className="flex flex-wrap border-y border-(--rule) bg-(--panel)">
+    <header className="flex flex-wrap border-y border-(--rule) bg-(--bg)">
       <a
         href="https://bluethroatlabs.com"
         aria-label="Bluethroat Labs home"
@@ -30,7 +30,7 @@ export const SiteHeader = () => {
       <div className="flex min-h-14 w-full items-stretch justify-end sm:ml-auto sm:w-auto md:min-h-16 xl:min-h-18">
         <a
           href="https://bluethroatlabs.com"
-          className="flex items-center border-l border-(--rule) px-4 text-sm text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
+          className="flex items-center border-l border-(--rule) px-4 text-sm font-semibold text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
         >
           About
         </a>
@@ -38,7 +38,7 @@ export const SiteHeader = () => {
           href="https://t.me/BluethroatLabsBot"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center border-l border-(--rule) px-4 text-sm text-nowrap text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
+          className="flex items-center border-l border-(--rule) px-4 text-sm font-semibold text-nowrap text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
         >
           Telegram Bot
         </a>
