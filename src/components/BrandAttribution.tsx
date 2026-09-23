@@ -25,15 +25,13 @@ export const BrandAttribution = ({
         />
       )}
       <span>A public good by</span>
-      <a href="https://bluethroatlabs.com" target="_blank">
-        <Image
-          src="/assets/bluethroat-wordmark.svg"
-          alt="Bluethroat Labs"
-          width={155}
-          height={22}
-          className={cn('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
-        />
-      </a>
+      <Image
+        src="/assets/bluethroat-wordmark.svg"
+        alt="Bluethroat Labs"
+        width={155}
+        height={22}
+        className={cn('theme-ink h-auto', compact ? 'w-25.5' : 'w-29')}
+      />
     </div>
   )
 }
