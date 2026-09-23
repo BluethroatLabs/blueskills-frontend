@@ -28,7 +28,7 @@ export default function SupportPage() {
       <p>
         If you use the{' '}
         <a
-          href="https://t.me/BluehroatLabsBot"
+          href="https://t.me/BluethroatLabsBot"
           target="_blank"
           rel="noreferrer"
         >
