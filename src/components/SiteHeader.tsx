@@ -8,7 +8,7 @@ export const SiteHeader = () => {
       <a
         href="https://bluethroatlabs.com"
         aria-label="Bluethroat Labs home"
-        className="flex min-h-16 shrink-0 items-center gap-3 border-b border-(--rule) px-4 sm:min-h-18 sm:px-6 xl:border-r xl:border-b-0"
+        className="flex min-h-16 w-full shrink-0 items-center gap-3 border-b border-(--rule) px-4 sm:min-h-18 sm:w-auto sm:border-b-0 sm:px-6 xl:border-r"
       >
         <FullLogo />
       </a>
