@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { Accordion, AccordionItem } from './Accordion'
 import { ScrollDialog } from './ScrollDialog'
 
 const paperClasses = [
@@ -28,34 +30,14 @@ const headerClasses = [
   '[&_p:last-child]:mb-0 max-[30rem]:[&_p]:text-base',
 ].join(' ')
 
-const questionsClasses = [
-  'm-0 list-none p-0',
-  '[&>li]:relative [&>li]:border-t [&>li]:border-(--scroll-rule)',
-  '[&>li:last-child]:border-b',
-].join(' ')
-
-const summaryClasses = [
-  'flex min-h-13 list-none items-center gap-3 py-3.5',
-  'text-[1.0625rem] leading-[1.55] font-[650] text-(--scroll-ink)',
-  '[&::-webkit-details-marker]:hidden',
-  'max-[30rem]:gap-2 max-[30rem]:text-base',
-].join(' ')
-
-const numberClasses = 'shrink-0 text-sm font-normal text-[#555] tabular-nums'
-
-const markerClasses = 'ml-auto inline-flex shrink-0 pl-2 max-[30rem]:pl-0'
-
-const markerIconClasses =
-  'size-4.5 fill-none stroke-current [stroke-width:1.25]'
-
 const answerClasses =
   'mb-3.5 max-w-[72ch] text-[1.0625rem] leading-[1.65] text-(--scroll-muted) max-[30rem]:text-base'
 
-const workflowListClasses = [
-  'mt-1 mb-0 space-y-2 text-base leading-[1.65] text-(--scroll-muted)',
-  '[&_li]:pl-1.5 [&_li+li]:mt-2.5',
-  '[&_li::marker]:text-(--scroll-ink) [&_li::marker]:tabular-nums',
-].join(' ')
+// const workflowListClasses = [
+//   'mt-1 mb-0 space-y-2 text-base leading-[1.65] text-(--scroll-muted)',
+//   '[&_li]:pl-1.5 [&_li+li]:mt-2.5',
+//   '[&_li::marker]:text-(--scroll-ink) [&_li::marker]:tabular-nums',
+// ].join(' ')
 
 export function AboutDialog() {
   return (
@@ -90,125 +72,127 @@ export function AboutDialog() {
           </p>
         </header>
 
-        <ol className={questionsClasses}>
-          <li>
-            <details className="group open:pb-3">
-              <summary className={summaryClasses}>
-                <span className={numberClasses} aria-hidden="true">
-                  01
-                </span>
-                <span>
-                  How do I scan an AI agent skill before installing it?
-                </span>
-                <span className={markerClasses} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} group-open:hidden`}
-                  >
-                    <path d="M9 3v12M3 9h12" />
-                  </svg>
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} hidden group-open:block`}
-                  >
-                    <path d="M3 9h12" />
-                  </svg>
-                </span>
-              </summary>
+        <Accordion>
+          <AccordionItem number="01" question="What is BlueSkills?">
+            <p className={answerClasses}>
+              BlueSkills is a security scanner for{' '}
+              <Link href="https://agentskills.io" target="_blank">
+                agent skills
+              </Link>
+              . It tries to find hidden malicious behaviour of a{' '}
+              <code>SKILL.md</code>
+            </p>
+          </AccordionItem>
 
-              <div className={workflowListClasses}>
-                <p>
-                  Get the exact public repository or ZIP you intend to install.
-                  Paste <code>SKILL.md</code> only when you want a one-file
-                  check.
-                </p>
-                <p>
-                  Submit it above, then read the findings and coverage. A CLEAN
-                  result means this scan found no supported issue in the
-                  material it examined.
-                </p>
-                <p>
-                  Review the skill and the access your agent will have. Decide
-                  whether to install that same revision.
-                </p>
+          <AccordionItem number="02" question="Is BlueSkills free?">
+            <p className={answerClasses}>
+              Yes. BlueSkills is a free public tool from Bluethroat Labs. The
+              web scanner accepts pasted <code>SKILL.md</code> files, public
+              repository URLs and ZIP packages.
+            </p>
+          </AccordionItem>
 
-                {/* <p className={`${answerClasses} mt-4 mb-0 text-base`}>
-                  Using an agent to install skills?{' '}
-                  <Link href="/for-agents">
-                    Give it the pre-install review workflow
-                  </Link>
-                  .
-                </p> */}
-              </div>
-            </details>
-          </li>
+          <AccordionItem
+            number="03"
+            question="Does CLEAN mean a skill is safe?"
+          >
+            <p className={answerClasses}>
+              No. CLEAN describes this scan of the submitted material. It cannot
+              certify behavior on every platform or after the skill changes.
+            </p>
+          </AccordionItem>
 
-          <li>
-            <details className="group open:pb-3">
-              <summary className={summaryClasses}>
-                <span className={numberClasses} aria-hidden="true">
-                  02
-                </span>
-                <span>Is BlueSkills free?</span>
-                <span className={markerClasses} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} group-open:hidden`}
-                  >
-                    <path d="M9 3v12M3 9h12" />
-                  </svg>
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} hidden group-open:block`}
-                  >
-                    <path d="M3 9h12" />
-                  </svg>
-                </span>
-              </summary>
+          <AccordionItem number="04" question="How long does a scan take?">
+            <p className={answerClasses}>
+              Because it&apos;s not a simple regexp scan, it usually takes a few
+              minutes.
+            </p>
+          </AccordionItem>
 
-              <div>
-                <p className={answerClasses}>
-                  Yes. BlueSkills is a free public tool from Bluethroat Labs.
-                  The web scanner accepts pasted SKILL.md files, public
-                  repository URLs and ZIP packages.
-                </p>
-              </div>
-            </details>
-          </li>
+          <AccordionItem
+            number="05"
+            question="What do CLEAN, SUSPICIOUS, and MALICIOUS mean?"
+          >
+            <p className={answerClasses}>
+              CLEAN means that the scanner didn&apos;t find anything suspicious
+              enough it doesn&apos;t mean that skill is safe to install.
+              SUSPICIOUS means there&apos;re a few red flags, we advise you to
+              manually check the skill. MALICIOUS means that we do not recommend
+              to interact with this skill.
+            </p>
+          </AccordionItem>
 
-          <li>
-            <details className="group open:pb-3">
-              <summary className={summaryClasses}>
-                <span className={numberClasses} aria-hidden="true">
-                  03
-                </span>
-                <span>Does CLEAN mean a skill is safe?</span>
-                <span className={markerClasses} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} group-open:hidden`}
-                  >
-                    <path d="M9 3v12M3 9h12" />
-                  </svg>
-                  <svg
-                    viewBox="0 0 18 18"
-                    className={`${markerIconClasses} hidden group-open:block`}
-                  >
-                    <path d="M3 9h12" />
-                  </svg>
-                </span>
-              </summary>
+          <AccordionItem
+            number="06"
+            question="Can I scan a private repository?"
+          >
+            <p className={answerClasses}>
+              No, private repositories are not supported.
+            </p>
+          </AccordionItem>
 
-              <div>
-                <p className={answerClasses}>
-                  No. CLEAN describes this scan of the submitted material. It
-                  cannot certify behavior on every platform or after the skill
-                  changes.
-                </p>
-              </div>
-            </details>
-          </li>
-        </ol>
+          <AccordionItem
+            number="07"
+            question="What happens if a repo contains several skills?"
+          >
+            <p className={answerClasses}>
+              Each skill folder is scanned on its own, and anything left over —
+              a hook, an <code>install.sh</code>, a script sitting next to the
+              skills — is scanned as a separate unit called files outside any
+              skill. The headline you see is the worst of those verdicts. One
+              clean skill next to a hostile hook is a hostile package.
+            </p>
+          </AccordionItem>
+
+          <AccordionItem
+            number="08"
+            question="Why is BlueSkills not open source?"
+          >
+            <p className={answerClasses}>
+              The scanner stays unpublished so a skill author cannot read the
+              rules, thresholds, normalizer, and sandbox checks and tune a
+              package to slip under them. Publishing that checklist would make
+              the check easier to evade than to trust. You can read the
+              architecture overview in the{' '}
+              <Link
+                href="https://github.com/BluethroatLabs/blueskills-public"
+                target="_blank"
+              >
+                public repository
+              </Link>
+              .
+            </p>
+          </AccordionItem>
+
+          {/* <AccordionItem
+            number="09"
+            question="How do I scan an AI agent skill before installing it?"
+          >
+            <div className={workflowListClasses}>
+              <p>
+                Get the exact public repository or ZIP you intend to install.
+                Paste <code>SKILL.md</code> only when you want a one-file check.
+              </p>
+              <p>
+                Submit it above, then read the findings and coverage. A CLEAN
+                result means this scan found no supported issue in the material
+                it examined.
+              </p>
+              <p>
+                Review the skill and the access your agent will have. Decide
+                whether to install that same revision.
+              </p>
+
+              <p className={`${answerClasses} mt-4 mb-0 text-base`}>
+                Using an agent to install skills?{' '}
+                <Link href="/for-agents">
+                  Give it the pre-install review workflow
+                </Link>
+                .
+              </p>
+            </div>
+          </AccordionItem> */}
+        </Accordion>
 
         <footer className="pt-5 text-center">
           <p className="m-0 font-serif text-2xl leading-[1.65] font-medium text-(--scroll-muted)">
