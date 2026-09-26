@@ -884,7 +884,7 @@ function OperationalView({
 
   return (
     <section aria-labelledby="report-heading" className="flex flex-col gap-3.5">
-      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 px-4 sm:px-5">
         <h2
           id="report-heading"
           className="text-sm font-medium tracking-[0.06em] text-(--ink-2) uppercase"
