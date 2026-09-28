@@ -240,8 +240,8 @@ summary {
   border-width: 6.25rem 4rem 5.75rem;
   border-style: solid;
   border-color: transparent;
-  border-image: url('/assets/privacy-scroll.png') 230 125 215 125 fill / 6.25rem
-    4rem 5.75rem / 0 stretch;
+  border-image: url('/assets/privacy-scroll.webp') 230 125 215 125 fill /
+    6.25rem 4rem 5.75rem / 0 stretch;
   padding: 0 1rem;
   color: var(--scroll-ink);
   color-scheme: light;
