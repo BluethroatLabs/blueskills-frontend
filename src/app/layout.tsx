@@ -4,6 +4,7 @@ import { Providers } from '@/app/providers'
 import './globals.css'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
+import { createPageMetadata, SITE_URL } from '@/lib/site-metadata'
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
@@ -17,9 +18,13 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'BlueSkills — inspect an agent skill before you install it',
-  description:
-    'Review an Agent Skill’s instructions, bundled files, and the evidence behind its security verdict.',
+  metadataBase: new URL(SITE_URL),
+  ...createPageMetadata({
+    title: 'BlueSkills: Scan an AI Agent Skill Before You Install It',
+    description:
+      'Scan an AI agent skill before installing it. BlueSkills analyzes instructions, bundled code and dependencies, with evidence, coverage and conditional runtime observation.',
+    path: '/',
+  }),
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

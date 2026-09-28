@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import { LegalPage } from '@/components/legal-page'
+import { createPageMetadata } from '@/lib/site-metadata'
 
-export const metadata: Metadata = { title: 'Terms — BlueSkills' }
+export const metadata: Metadata = createPageMetadata({
+  title: 'Terms | BlueSkills',
+  description:
+    'Read the website terms for using the BlueSkills AI agent skill scanner.',
+  path: '/terms',
+})
 
 export default function TermsPage() {
   return (
