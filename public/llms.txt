@@ -1,0 +1,36 @@
+# BlueSkills
+
+> BlueSkills is a free security scanner from Bluethroat Labs for examining AI agent skills before installation.
+
+BlueSkills accepts a public GitHub or GitLab repository, ZIP package, or SKILL.md file. It analyzes the submitted material across multiple detection layers and returns a verdict, risk score, findings, quoted evidence, and coverage information.
+
+Important limitations:
+
+- A CLEAN result means BlueSkills found no sufficiently suspicious behavior in the material and analysis it covered. It is not a certificate of safety.
+- A pasted SKILL.md is a one-file scan. It does not include referenced scripts or surrounding package files.
+- Isolated runtime observation runs only when that stage is enabled; it is not part of every hosted scan.
+- Scan the exact source and revision that will be installed.
+- Do not upload credentials, secrets, or private material.
+- Agents should present findings and coverage to the user and obtain approval before installing the same revision.
+
+## Use BlueSkills
+
+- [Web scanner](https://blueskills.bluethroatlabs.com/): Scan an agent skill in a browser.
+- [BlueSkills for agents](https://blueskills.bluethroatlabs.com/for-agents): The recommended pre-install workflow for AI agents. The separate bluethroat CLI is specified but not released.
+- [About BlueSkills](https://blueskills.bluethroatlabs.com/about): Product overview and frequently asked questions.
+
+## Evidence and limitations
+
+- [Methodology, evidence and limitations](https://blueskills.bluethroatlabs.com/methodology): What BlueSkills examines, how results should be interpreted, and known limitations.
+- [Public repository](https://github.com/BluethroatLabs/blueskills-public): Public architecture information, issues, challenge submissions, and project updates.
+- [Report a missed detection or incorrect result](https://github.com/BluethroatLabs/blueskills-public/issues): Submit a reproducible example using dummy data.
+
+## Policies and support
+
+- [Privacy](https://blueskills.bluethroatlabs.com/privacy)
+- [Terms](https://blueskills.bluethroatlabs.com/terms)
+- [Support](https://blueskills.bluethroatlabs.com/support)
+
+## Optional
+
+- [Bluethroat Labs](https://bluethroatlabs.com/)

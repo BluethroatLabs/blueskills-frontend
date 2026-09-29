@@ -217,6 +217,402 @@ summary {
   text-decoration-color: var(--ink);
 }
 
+.about-page-environment {
+  border-block: 1px solid var(--rule);
+  background:
+    linear-gradient(rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)),
+    url('/assets/footer-bg-dark.webp') center / cover fixed,
+    #111;
+  padding-block: 1.5rem;
+}
+
+.about-page-environment .parchment-page {
+  margin-bottom: 0;
+}
+
+.parchment-page {
+  --scroll-ink: #161616;
+  --scroll-muted: #3e3e3e;
+  --scroll-rule: rgb(22 22 22 / 20%);
+  position: relative;
+  width: min(68rem, calc(100% - 6.25rem));
+  margin: 0 auto 2.5rem;
+  border-width: 6.25rem 4rem 5.75rem;
+  border-style: solid;
+  border-color: transparent;
+  border-image: url('/assets/privacy-scroll.webp') 230 125 215 125 fill /
+    6.25rem 4rem 5.75rem / 0 stretch;
+  padding: 0 1rem;
+  color: var(--scroll-ink);
+  color-scheme: light;
+  filter: drop-shadow(0 1.125rem 1.25rem rgb(0 0 0 / 53%));
+}
+
+.parchment-page a {
+  color: var(--scroll-ink);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+  overflow-wrap: anywhere;
+}
+
+.parchment-page a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.parchment-page :focus-visible {
+  outline-color: var(--scroll-ink);
+}
+
+.reading-page-header {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 3rem 0 2.5rem;
+  text-align: center;
+}
+
+.reading-page-header h1 {
+  margin: 0;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.reading-page-header__lead {
+  max-width: 62ch;
+  margin: 1.5rem auto 0;
+  color: var(--scroll-muted);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  text-wrap: balance;
+}
+
+.content-copy,
+.reading-section {
+  max-width: 75ch;
+  margin-inline: auto;
+  color: var(--scroll-muted);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.content-copy--intro {
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--scroll-rule);
+}
+
+.content-copy > * + *,
+.content-copy__answer > * + * {
+  margin-top: 1.25rem;
+}
+
+.content-copy section {
+  margin-top: 4rem;
+}
+
+.content-copy h2,
+.reading-section h2 {
+  margin: 0 0 1.25rem;
+  color: var(--scroll-ink);
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.content-copy h3 {
+  margin: 2.5rem 0 0.75rem;
+  color: var(--scroll-ink);
+  font-size: 1.0625rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.content-copy p,
+.content-copy ul,
+.content-copy ol,
+.content-copy blockquote,
+.content-copy pre,
+.content-copy__answer p {
+  margin-bottom: 0;
+}
+
+.content-copy ul,
+.content-copy ol {
+  padding-left: 1.5rem;
+}
+
+.content-copy li + li {
+  margin-top: 0.65rem;
+}
+
+.content-copy code,
+.content-copy__answer code {
+  border: 1px solid var(--scroll-rule);
+  padding: 0.05rem 0.3rem;
+  color: var(--scroll-ink);
+  font-size: 0.9em;
+}
+
+.content-copy pre {
+  overflow-x: auto;
+  border: 1px solid var(--scroll-rule);
+  padding: 1rem;
+  background: rgb(22 22 22 / 5%);
+  color: var(--scroll-ink);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  scrollbar-color: #777 transparent;
+}
+
+.content-copy pre code {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: inherit;
+}
+
+.content-copy blockquote {
+  border-block: 1px solid var(--scroll-rule);
+  padding: 1.5rem 0;
+  color: var(--scroll-ink);
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.55rem;
+  line-height: 1.45;
+}
+
+.reading-section {
+  padding-top: 3rem;
+}
+
+.content-accordion {
+  --scroll-ink: #161616;
+  --scroll-muted: #3e3e3e;
+  --scroll-rule: rgb(22 22 22 / 20%);
+}
+
+.content-copy__answer {
+  margin: 0 0 0.875rem;
+  max-width: 72ch;
+  color: var(--scroll-muted);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.pending-facts {
+  overflow-wrap: anywhere;
+}
+
+.reading-page-footer {
+  max-width: 75ch;
+  margin: 3rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--scroll-rule);
+  text-align: center;
+}
+
+.reading-page-footer p {
+  margin: 0;
+  color: var(--scroll-muted);
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+.reading-document-page {
+  --scroll-ink: var(--ink);
+  --scroll-muted: var(--ink-2);
+  --scroll-rule: var(--rule);
+  border-block: 1px solid var(--rule);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.reading-document-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  padding: 1rem 1.25rem;
+}
+
+.reading-document-header > div {
+  max-width: 75ch;
+}
+
+.reading-document-header h1 {
+  margin: 0;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 2.375rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+
+.reading-document-header p {
+  margin: 0.625rem 0 0;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.reading-document-scan {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--control-rule);
+  padding: 0.5rem 0.75rem;
+  color: var(--ink);
+  font-size: 0.875rem;
+  text-decoration-line: underline;
+  text-underline-offset: 0.25rem;
+  transition: background-color 150ms ease-out;
+}
+
+.reading-document-scan:hover {
+  background: var(--panel-2);
+}
+
+.content-copy.reading-document-copy {
+  max-width: 95ch;
+  margin: 0;
+  padding: 1.25rem;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+.reading-document-copy section {
+  margin-top: 3rem;
+}
+
+.reading-document-copy h2 {
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.08;
+}
+
+.reading-document-copy h3 {
+  margin-top: 2rem;
+  color: var(--ink);
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.reading-document-copy a {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.25rem;
+  overflow-wrap: anywhere;
+}
+
+.reading-document-copy a:hover {
+  text-decoration-color: var(--ink);
+}
+
+.reading-document-copy pre {
+  border-color: var(--rule);
+  background: var(--code);
+  color: var(--ink);
+}
+
+.reading-document-copy blockquote {
+  border-color: var(--rule);
+  color: var(--ink);
+  font-size: 1.35rem;
+}
+
+@media (max-width: 47.5rem) {
+  .about-page-environment {
+    padding-block: 0.75rem;
+  }
+
+  .parchment-page {
+    width: calc(100% - 2rem);
+    margin-bottom: 1.5rem;
+    border-width: 6.25rem 2.5rem 5.9375rem;
+    border-image-width: 6.25rem 2.5rem 5.9375rem;
+    padding-inline: 0.75rem;
+  }
+
+  .reading-page-header {
+    padding-block: 2.5rem 2rem;
+  }
+
+  .content-copy section {
+    margin-top: 3.25rem;
+  }
+
+  .reading-document-header,
+  .content-copy.reading-document-copy {
+    padding-inline: 1rem;
+  }
+
+  .reading-document-copy section {
+    margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .parchment-page {
+    width: calc(100% - 0.5rem);
+    border-width: 4rem 1.375rem 3.75rem;
+    border-image-width: 4rem 1.375rem 3.75rem;
+  }
+
+  .reading-page-header h1 {
+    font-size: clamp(2.75rem, 15vw, 4rem);
+  }
+
+  .reading-page-header__lead,
+  .content-copy,
+  .reading-section,
+  .content-copy__answer {
+    font-size: 1rem;
+  }
+
+  .content-copy blockquote {
+    font-size: 1.35rem;
+  }
+
+  .about-page-environment {
+    padding-block: 0.25rem;
+  }
+
+  .reading-document-header h1 {
+    font-size: 1.9375rem;
+  }
+
+  .reading-document-copy blockquote {
+    font-size: 1.25rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .about-page-environment {
+    background: Canvas;
+  }
+
+  .parchment-page {
+    border-image: none;
+    background: Canvas;
+    color: CanvasText;
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

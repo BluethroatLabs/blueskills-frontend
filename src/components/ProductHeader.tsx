@@ -1,7 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export const ProductHeader = () => {
+  const pathname = usePathname()
+  const titleClasses =
+    'font-serif text-6xl leading-none font-normal tracking-[0.005em] text-(--ink) sm:text-8xl'
+
   return (
     <header className="relative mt-4 overflow-hidden border-y border-(--rule) bg-(--panel) p-4 sm:p-5">
       <div
@@ -19,9 +26,11 @@ export const ProductHeader = () => {
               priority
               className="theme-ink size-14 shrink-0 md:size-22"
             />
-            <h1 className="font-serif text-6xl leading-none font-normal tracking-[0.005em] text-(--ink) sm:text-8xl">
-              BlueSkills
-            </h1>
+            {pathname === '/' ? (
+              <h1 className={titleClasses}>BlueSkills</h1>
+            ) : (
+              <p className={titleClasses}>BlueSkills</p>
+            )}
           </Link>
 
           <div className="mt-4 mb-2 sm:ml-13.5">

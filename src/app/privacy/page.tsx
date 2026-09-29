@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
 import { LegalPage } from '@/components/legal-page'
+import { createPageMetadata } from '@/lib/site-metadata'
 
-export const metadata: Metadata = { title: 'Privacy — BlueSkills' }
+export const metadata: Metadata = createPageMetadata({
+  title: 'Privacy | BlueSkills',
+  description:
+    'Read how BlueSkills handles submitted skill material, scan reports, service data, and retention.',
+  path: '/privacy',
+})
 
 export default function PrivacyPage() {
   return (

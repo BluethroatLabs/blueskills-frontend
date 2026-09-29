@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { BrandAttribution } from './BrandAttribution'
 
 const FOOTER_LINKS = [
+  { name: 'For agents', href: '/for-agents' },
+  { name: 'Methodology', href: '/methodology' },
   { name: 'Privacy', href: '/privacy' },
   { name: 'Terms', href: '/terms' },
   { name: 'Support', href: '/support' },
@@ -12,7 +14,7 @@ export const Footer = () => {
     <footer className="flex flex-col gap-4 border-y border-(--rule) px-4 py-5 text-sm sm:px-5 md:flex-row md:items-center md:justify-between">
       <BrandAttribution showIcon />
       <nav
-        aria-label="Policies and support"
+        aria-label="BlueSkills information, policies, and support"
         className="flex flex-wrap gap-x-5 gap-y-2"
       >
         {FOOTER_LINKS.map((item) => (

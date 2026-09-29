@@ -1,4 +1,4 @@
-import { AboutDialog } from './AboutDialog'
+import Link from 'next/link'
 import { ThemeControl } from './ThemeControl'
 import { FullLogo } from '@/lib/logos'
 
@@ -14,7 +14,12 @@ export const SiteHeader = () => {
       </a>
 
       <div className="flex min-h-14 w-full items-stretch justify-end sm:ml-auto sm:w-auto md:min-h-16 xl:min-h-18">
-        <AboutDialog />
+        <Link
+          href="/about"
+          className="flex items-center border-l border-(--rule) px-4 text-sm font-semibold text-(--ink-2) transition-colors hover:bg-(--panel-2) hover:text-(--ink) sm:px-5 sm:text-base"
+        >
+          About
+        </Link>
         <a
           href="https://t.me/BluethroatLabsBot"
           target="_blank"
