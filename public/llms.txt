@@ -8,7 +8,6 @@ Important limitations:
 
 - A CLEAN result means BlueSkills found no sufficiently suspicious behavior in the material and analysis it covered. It is not a certificate of safety.
 - A pasted SKILL.md is a one-file scan. It does not include referenced scripts or surrounding package files.
-- Isolated runtime observation runs only when that stage is enabled; it is not part of every hosted scan.
 - Scan the exact source and revision that will be installed.
 - Do not upload credentials, secrets, or private material.
 - Agents should present findings and coverage to the user and obtain approval before installing the same revision.
@@ -16,7 +15,7 @@ Important limitations:
 ## Use BlueSkills
 
 - [Web scanner](https://blueskills.bluethroatlabs.com/): Scan an agent skill in a browser.
-- [BlueSkills for agents](https://blueskills.bluethroatlabs.com/for-agents): The recommended pre-install workflow for AI agents. The separate bluethroat CLI is specified but not released.
+- [BlueSkills for agents](https://blueskills.bluethroatlabs.com/for-agents): The recommended pre-install workflow for AI agents.
 - [About BlueSkills](https://blueskills.bluethroatlabs.com/about): Product overview and frequently asked questions.
 
 ## Evidence and limitations
