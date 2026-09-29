@@ -141,8 +141,7 @@ export default function MethodologyPage() {
 
         <h3>Instruction and configuration analysis</h3>
         <p>
-          The scanner examines skill instructions, hooks, tool permissions,
-          subagent definitions, MCP configuration, and other material capable of
+          The scanner examines skill instructions, bundled scripts, dependency manifests, and other material capable of
           changing how an agent behaves.
         </p>
 
@@ -253,9 +252,7 @@ export default function MethodologyPage() {
         </p>
         <p>
           The first public challenge produced three prize-winning misses. The
-          status below reflects the source tree after the 2026-09-24 fixes. The
-          package version remains 0.1.0, and the original submissions were not
-          re-scanned against the live site for this review.
+          status below reflects the source tree after the 2026-09-24 fixes.
         </p>
         <ol>
           <li>
@@ -326,12 +323,6 @@ export default function MethodologyPage() {
       <section>
         <h2>Current version and evidence</h2>
         <ul className="pending-facts">
-          <li>Scanner package version: 0.1.0</li>
-          <li>
-            Live analyzer build ID: stamped per image as{' '}
-            <code>0.1.0+&lt;build id&gt;</code>. The running ID was not read for
-            this review.
-          </li>
           <li>
             CLI: <code>bluethroat</code> on PyPI (
             <code>uv tool install bluethroat</code>).
@@ -352,14 +343,6 @@ export default function MethodologyPage() {
             job must be checked before claiming that runtime runs in production.
           </li>
           <li>
-            Evaluation summary: internal README figures only; not re-measured
-            for this review. Rahul decides whether to publish them.
-          </li>
-          <li>Example CLEAN report: not available yet</li>
-          <li>Example SUSPICIOUS report: not available yet</li>
-          <li>Example MALICIOUS report: not available yet</li>
-          <li>Changelog: not available yet</li>
-          <li>
             Public architecture overview:{' '}
             <Link
               href="https://github.com/BluethroatLabs/blueskills-public"
@@ -369,7 +352,6 @@ export default function MethodologyPage() {
               github.com/BluethroatLabs/blueskills-public
             </Link>
           </li>
-          <li>Challenge lessons article: not available yet</li>
         </ul>
       </section>
 
