@@ -110,7 +110,8 @@ bluethroat auth logout`}</code>
         <h3>Exit code</h3>
         <p>
           Trust the exit code. Only 0 is a finished clean scan, and 0 is still
-          not permission to install.
+          not permission to install. When the command prints a report, read it.
+          Codes 3, 4, and 7 can print a verdict too.
         </p>
         <ul>
           <li>
@@ -118,17 +119,22 @@ bluethroat auth logout`}</code>
             only that revision, and only after they approve.
           </li>
           <li>
-            <code>1</code> suspicious. Do not install.
+            <code>1</code> suspicious, and the scan is complete. Do not install.
           </li>
           <li>
-            <code>2</code> malicious. Do not install.
+            <code>2</code> malicious, and the scan is complete. Do not install.
           </li>
           <li>
-            <code>3</code> incomplete or partial. Do not treat this as clean.
+            <code>3</code> incomplete or partial, including a suspicious or
+            malicious report whose scan did not finish. The text still names
+            that verdict. Do not treat this as clean. Do not install when the
+            report says suspicious or malicious.
           </li>
           <li>
-            <code>4</code> bad source, or <code>--ref</code> did not match. No
-            verdict.
+            <code>4</code> bad source, or <code>--ref</code> did not match:
+            stdout has no verdict. A finished scan whose verdict is invalid also
+            exits 4 and prints <code>INVALID — not scored</code>. Do not
+            install.
           </li>
           <li>
             <code>5</code> rate limited. Stderr says <code>retry after Ns</code>
@@ -136,12 +142,15 @@ bluethroat auth logout`}</code>
             <code>retry_after</code>.
           </li>
           <li>
-            <code>6</code> not logged in, or GitHub auth failed. Run{' '}
-            <code>bluethroat auth login</code>.
+            <code>6</code> not logged in, or GitHub refused or expired the
+            login. Run <code>bluethroat auth login</code>. If GitHub cannot be
+            reached, the exit code is 7.
           </li>
           <li>
-            <code>7</code> the service failed, or the scan status is{' '}
-            <code>failed</code>. No verdict.
+            <code>7</code> the service failed, the report was not ready after 15
+            minutes, or the scan status is <code>failed</code>. A verdict of{' '}
+            <code>error</code> exits 7 as well. A failed scan still prints the
+            report. Treat that run as unfinished.
           </li>
         </ul>
 
@@ -221,10 +230,10 @@ reports[]: skill_name, verdict, risk_score, layers_run, findings[]`}</code>
         </p>
         <p>
           <strong>PARTIAL</strong> means a complete CLEAN result is unreachable.{' '}
-          <strong>INVALID</strong> and a failed scan provide a reason but no
-          risk score. An incomplete scan names the layer that did not run.
-          Unscanned files and remote content that arrives only after
-          installation are coverage gaps.
+          <strong>INVALID</strong> gives a reason and no risk score. A failed
+          scan can still show a scored verdict; that run is unfinished. An
+          incomplete scan names the layer that did not run. Unscanned files and
+          remote content that arrives only after installation are coverage gaps.
         </p>
         <p>
           The risk score is a prioritization signal. It is not a probability
@@ -258,7 +267,9 @@ reports[]: skill_name, verdict, risk_score, layers_run, findings[]`}</code>
 
         <h3>Incomplete, invalid, partial, or failed scan</h3>
         <p>
-          Do not interpret the result as CLEAN. Retry the scan or ask the user
+          Do not interpret the result as CLEAN. When the report says MALICIOUS,
+          do not install or execute it. When it says SUSPICIOUS, continue only
+          after explicit user approval. Otherwise retry the scan or ask the user
           to review the package manually.
         </p>
       </section>
