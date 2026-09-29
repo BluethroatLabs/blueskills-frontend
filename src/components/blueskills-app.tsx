@@ -693,9 +693,9 @@ function PreInstallGuide() {
         </li>
       </ol>
       <p className="mt-4 text-sm leading-6 text-(--ink-2)">
-        Using an agent to install skills?{' '}
+        Installing a skill from an agent?{' '}
         <Link href="/for-agents" className="underline underline-offset-4">
-          Give it the pre-install review workflow
+          Use the Bluethroat CLI
         </Link>
         .
       </p>
