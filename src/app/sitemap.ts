@@ -4,7 +4,7 @@ import { SITE_URL } from '@/lib/site-metadata'
 const routes = [
   { path: '/', lastModified: '2026-09-28' },
   { path: '/about', lastModified: '2026-09-28' },
-  { path: '/for-agents', lastModified: '2026-09-28' },
+  { path: '/for-agents', lastModified: '2026-09-29' },
   { path: '/methodology', lastModified: '2026-09-28' },
   { path: '/privacy', lastModified: '2026-09-18' },
   { path: '/terms', lastModified: '2026-09-21' },
