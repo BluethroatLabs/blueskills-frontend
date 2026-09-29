@@ -333,8 +333,8 @@ export default function MethodologyPage() {
             this review.
           </li>
           <li>
-            CLI: <code>bluethroat</code> specification version 0.1.0; not
-            released.
+            CLI: <code>bluethroat</code> on PyPI (
+            <code>uv tool install bluethroat</code>).
           </li>
           <li>Methodology last updated: 2026-09-28</li>
           <li>

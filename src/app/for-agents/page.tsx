@@ -6,7 +6,7 @@ import { createPageMetadata } from '@/lib/site-metadata'
 export const metadata: Metadata = createPageMetadata({
   title: 'BlueSkills for AI Agents | Pre-Install Skill Scanning',
   description:
-    'Use BlueSkills as a pre-install checkpoint for third-party AI agent skills, review findings and coverage, and obtain approval before installation.',
+    'Scan a third-party skill with the bluethroat CLI before installing it. Read the exit code, findings, and coverage, then get approval for that revision.',
   path: '/for-agents',
 })
 
@@ -14,12 +14,13 @@ export default function ForAgentsPage() {
   return (
     <ReadingDocumentPage
       title="BlueSkills for AI agents"
-      lead="Scan a third-party skill before you install it."
+      lead="Scan the exact revision with the bluethroat CLI before you install it."
       labelledBy="for-agents-title"
     >
       <p>
-        BlueSkills is a checkpoint an agent can ask a person to use before
-        installing a third-party skill.
+        Use <code>bluethroat</code> to scan a skill before you install it. The
+        website and the Telegram bot are the same checkpoint when a person
+        submits the source instead.
       </p>
       <p>
         The website and the Telegram bot accept a public GitHub or GitLab
@@ -38,11 +39,159 @@ export default function ForAgentsPage() {
       <section>
         <h2>Command-line client</h2>
         <p>
-          The <code>bluethroat</code> CLI is specified as a separate project but
-          is not released. Commands, authentication behavior, and CLI output
-          documentation will be published after that implementation matches the
-          reviewed contract.
+          <code>bluethroat</code> calls the API, waits for the report, and
+          prints it. Install only from a report you just produced for that same
+          revision. This website requires a human check. Do not POST scans here.
         </p>
+        <p>Python 3.11 or newer.</p>
+        <pre>
+          <code>uv tool install bluethroat</code>
+        </pre>
+
+        <h3>Log in once</h3>
+        <pre>
+          <code>bluethroat auth login</code>
+        </pre>
+        <p>
+          GitHub device flow. Stderr prints <code>Open &lt;url&gt;</code> and{' '}
+          <code>Enter code &lt;code&gt;</code>. The user approves that code in a
+          browser. Wait until stdout prints{' '}
+          <code>logged in as &lt;login&gt;</code>.
+        </p>
+        <pre>
+          <code>{`bluethroat auth status
+bluethroat auth logout`}</code>
+        </pre>
+        <p>
+          <code>status</code> prints{' '}
+          <code>logged in as &lt;login&gt; (id &lt;id&gt;)</code>.{' '}
+          <code>logout</code> deletes the local session and revokes the token.
+          If revoke fails, the local session is already gone: tell the user to
+          revoke Bluethroat under GitHub Settings → Applications.
+        </p>
+        <p>
+          The access token lasts 8 hours. The CLI refreshes it. Leave the client
+          secret unset. The session is in the OS credential store, or in{' '}
+          <code>~/.config/bluethroat/credentials.json</code> (mode 0600) when
+          that store is unavailable.
+        </p>
+
+        <h3>Scan the exact revision</h3>
+        <pre>
+          <code>
+            bluethroat blueskills scan &lt;source&gt; [--ref REF] [--json]
+          </code>
+        </pre>
+        <ul>
+          <li>
+            <code>&lt;source&gt;</code> is a public https URL on github.com or
+            gitlab.com, a skill directory, a <code>.zip</code> (max 25 MiB), or
+            a file named <code>SKILL.md</code> (max 1 MiB).
+          </li>
+          <li>
+            A directory is packed and uploaded. Symlinks are rejected. A{' '}
+            <code>SKILL.md</code> scan checks that file only and does not fetch
+            scripts it references.
+          </li>
+          <li>
+            <code>--ref</code> is a branch, tag, or commit, and only for a
+            repository URL. A 40-character hex ref must match the commit the
+            host scanned. A mismatch exits 4 and prints no verdict.
+          </li>
+          <li>
+            <code>--json</code> prints the scan document on stdout. The default
+            is a text report. Progress (<code>Scanning…</code>,{' '}
+            <code>Waiting for the report…</code>) is on stderr. The command
+            waits up to 15 minutes, then exits 7. Run the same scan again.
+          </li>
+          <li>Do not send secrets or private packages.</li>
+        </ul>
+
+        <h3>Exit code</h3>
+        <p>
+          Trust the exit code. Only 0 is a finished clean scan, and 0 is still
+          not permission to install.
+        </p>
+        <ul>
+          <li>
+            <code>0</code> clean and complete. Show the user the report. Install
+            only that revision, and only after they approve.
+          </li>
+          <li>
+            <code>1</code> suspicious. Do not install.
+          </li>
+          <li>
+            <code>2</code> malicious. Do not install.
+          </li>
+          <li>
+            <code>3</code> incomplete or partial. Do not treat this as clean.
+          </li>
+          <li>
+            <code>4</code> bad source, or <code>--ref</code> did not match. No
+            verdict.
+          </li>
+          <li>
+            <code>5</code> rate limited. Stderr says <code>retry after Ns</code>
+            . With <code>--json</code>, stdout JSON has <code>error</code> and{' '}
+            <code>retry_after</code>.
+          </li>
+          <li>
+            <code>6</code> not logged in, or GitHub auth failed. Run{' '}
+            <code>bluethroat auth login</code>.
+          </li>
+          <li>
+            <code>7</code> the service failed, or the scan status is{' '}
+            <code>failed</code>. No verdict.
+          </li>
+        </ul>
+
+        <h3>Read the report</h3>
+        <p>
+          Text leads with the verdict. Several skills add a headline, then one
+          block per skill. Read every block. <code>PARTIAL</code> means a clean
+          result is unreachable. <code>INCOMPLETE SCAN</code> means a layer did
+          not run.
+        </p>
+        <pre>
+          <code>{`✗ <source> — MALICIOUS (risk 86/100)
+  commit: <sha>
+  [HIGH] title  (layer)
+         file:line — detail
+         evidence: ...`}</code>
+        </pre>
+        <p>
+          <code>--json</code> uses these fields. <code>status</code> is{' '}
+          <code>done</code> or <code>failed</code>.
+        </p>
+        <pre>
+          <code>{`complete, worst_verdict | verdict, commit, source
+reports[]: skill_name, verdict, risk_score, layers_run, findings[]`}</code>
+        </pre>
+
+        <h3>Leave these at the defaults</h3>
+        <p>
+          Environment variables override{' '}
+          <code>~/.config/bluethroat/config.json</code>.
+        </p>
+        <ul>
+          <li>
+            <code>BLUETHROAT_API_URL</code> (<code>api_url</code>) is the
+            BlueSkills API. The default is correct. This website is not the API.
+          </li>
+          <li>
+            <code>BLUETHROAT_GITHUB_CLIENT_ID</code> (
+            <code>github_client_id</code>) stays the built-in Bluethroat app id.
+          </li>
+          <li>
+            <code>BLUETHROAT_GITHUB_CLIENT_SECRET</code> (
+            <code>github_client_secret</code>) stays unset.
+          </li>
+          <li>
+            <code>BLUETHROAT_CONFIG_DIR</code> overrides the config directory.
+            Otherwise it is <code>$XDG_CONFIG_HOME/bluethroat</code> or{' '}
+            <code>~/.config/bluethroat</code>.
+          </li>
+        </ul>
       </section>
 
       <section>
