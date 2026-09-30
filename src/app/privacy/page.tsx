@@ -41,8 +41,7 @@ export default function PrivacyPage() {
           with real credentials, or private repository or private package
           contents. Public GitHub and GitLab URLs only; private repositories are
           not fetched, and a zip of a private package is not an accepted
-          substitute. Do not send documents to BluePaper that you are not
-          allowed to share with the conversion service.
+          substitute.
         </p>
       </section>
 
