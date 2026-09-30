@@ -28,11 +28,6 @@ export default function PrivacyPage() {
             message we need to reply to.
           </li>
           <li>
-            Documents you send to BluePaper (PDF, Word, or image). Those bytes
-            are uploaded to the BluePaper conversion service and are not stored
-            by BlueSkills.
-          </li>
-          <li>
             Scan reports (findings, scores, stage logs). Runtime logs from a
             sandbox, when deep analysis runs.
           </li>
@@ -58,13 +53,7 @@ export default function PrivacyPage() {
           <li>OpenRouter (optional embedding, judge, and executor models)</li>
           <li>Azure (hosted storage, queues, and ACA sandboxes)</li>
           <li>
-            Cloudflare Turnstile (website scan button, when the operator has
-            enabled it)
-          </li>
-          <li>
-            BluePaper conversion API (Azure Container Apps; same operator).
-            BlueMask runs on your device and does not upload the image to
-            BlueSkills.
+            Cloudflare Turnstile
           </li>
         </ul>
       </section>
