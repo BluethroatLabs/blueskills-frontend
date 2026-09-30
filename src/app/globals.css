@@ -510,6 +510,14 @@ summary {
   line-height: 1.1;
 }
 
+.reading-document-copy ul {
+  list-style: square outside;
+}
+
+.reading-document-copy ol {
+  list-style: decimal outside;
+}
+
 .reading-document-copy a {
   color: var(--ink);
   text-decoration-line: underline;
