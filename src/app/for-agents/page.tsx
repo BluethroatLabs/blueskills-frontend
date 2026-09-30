@@ -85,7 +85,8 @@ bluethroat auth logout`}</code>
         <ul>
           <li>
             <code>&lt;source&gt;</code> is a public https URL on github.com or
-            gitlab.com, a skill directory, a <code>.zip</code> (max 25 MiB), or
+            gitlab.com (not just the repository but also a file or directory in the 
+            repository), a skill directory, a <code>.zip</code> (max 25 MiB), or
             a file named <code>SKILL.md</code> (max 1 MiB).
           </li>
           <li>
