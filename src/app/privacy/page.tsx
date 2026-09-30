@@ -51,9 +51,7 @@ export default function PrivacyPage() {
           <li>Telegram (bot delivery)</li>
           <li>OpenRouter (optional embedding, judge, and executor models)</li>
           <li>Azure (hosted storage, queues, and ACA sandboxes)</li>
-          <li>
-            Cloudflare Turnstile
-          </li>
+          <li>Cloudflare Turnstile</li>
         </ul>
       </section>
 

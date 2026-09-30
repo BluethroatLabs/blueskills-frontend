@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ReadingDocumentPage } from '@/components/content-page'
-import { createPageMetadata } from '@/lib/site-metadata'
+import { createPageMetadata, SITE_URL } from '@/lib/site-metadata'
 
 export const metadata: Metadata = createPageMetadata({
   title: 'BlueSkills Methodology, Evidence and Limitations',
@@ -10,6 +10,25 @@ export const metadata: Metadata = createPageMetadata({
   path: '/methodology',
 })
 
+const methodologyUpdatedDate = '2026-09-28'
+
+const methodologyStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'How BlueSkills analyzes an AI agent skill',
+  description:
+    'See what BlueSkills examines, how verdicts and coverage are reported, what public testing has found, and where the scanner’s limitations remain.',
+  url: `${SITE_URL}/methodology`,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/methodology` },
+  dateModified: methodologyUpdatedDate,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Bluethroat Labs',
+    url: 'https://bluethroatlabs.com/',
+  },
+  inLanguage: 'en',
+}
+
 export default function MethodologyPage() {
   return (
     <ReadingDocumentPage
@@ -17,6 +36,12 @@ export default function MethodologyPage() {
       lead="What evidence should you review before allowing an AI agent to install a skill?"
       labelledBy="methodology-title"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(methodologyStructuredData),
+        }}
+      />
       <p>
         BlueSkills helps a user answer one specific question: what evidence
         should I review before allowing an AI agent to install this skill?
@@ -141,8 +166,9 @@ export default function MethodologyPage() {
 
         <h3>Instruction and configuration analysis</h3>
         <p>
-          The scanner examines skill instructions, bundled scripts, dependency manifests, and other material capable of
-          changing how an agent behaves.
+          The scanner examines skill instructions, bundled scripts, dependency
+          manifests, and other material capable of changing how an agent
+          behaves.
         </p>
 
         <h3>Bundled code and manifest analysis</h3>
@@ -327,7 +353,7 @@ export default function MethodologyPage() {
             CLI: <code>bluethroat</code> on PyPI (
             <code>uv tool install bluethroat</code>).
           </li>
-          <li>Methodology last updated: 2026-09-28</li>
+          <li>Methodology last updated: {methodologyUpdatedDate}</li>
           <li>
             Supported inputs: pasted <code>SKILL.md</code> (1 MiB), public
             GitHub URL, public GitLab URL, ZIP (25 MiB)
