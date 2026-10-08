@@ -25,7 +25,7 @@ export const BrandAttribution = ({
         />
       )}
       <span>A public good by</span>
-      <a href="https://bluethroatlabs.com" target="_blank">
+      <a href="https://bluethroatlabs.com" target="_blank" rel="noreferrer">
         <Image
           src="/assets/bluethroat-wordmark.svg"
           alt="Bluethroat Labs"
