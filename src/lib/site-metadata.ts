@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-export const SITE_URL = 'https://blueskills.bluethroatlabs.com'
+export const SITE_URL = 'https://blueskills.bluethroatlabs.com/'
 export const SITE_NAME = 'BlueSkills by Bluethroat Labs'
 export const SOCIAL_IMAGE_PATH = '/opengraph-image.png'
 
@@ -10,19 +10,25 @@ interface PageMetadataOptions {
   path: `/${string}` | '/'
 }
 
+export function absoluteSiteUrl(path: `/${string}` | '/'): string {
+  return new URL(path.replace(/^\//, ''), SITE_URL).toString()
+}
+
 export function createPageMetadata({
   title,
   description,
   path,
 }: PageMetadataOptions): Metadata {
+  const pageUrl = absoluteSiteUrl(path)
+
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: pageUrl },
     openGraph: {
       title,
       description,
-      url: path,
+      url: pageUrl,
       siteName: SITE_NAME,
       type: 'website',
       images: [

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/lib/site-metadata'
+import { absoluteSiteUrl } from '@/lib/site-metadata'
 
 const routes = [
   { path: '/', lastModified: '2026-09-28' },
@@ -13,7 +13,7 @@ const routes = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map(({ path, lastModified }) => ({
-    url: `${SITE_URL}${path}`,
+    url: absoluteSiteUrl(path),
     lastModified: new Date(`${lastModified}T00:00:00.000Z`),
   }))
 }
