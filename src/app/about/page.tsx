@@ -41,6 +41,12 @@ const FAQs = [
         scanner and the Telegram bot accept pasted <code>SKILL.md</code> files,
         public GitHub and GitLab repository URLs, and ZIP packages. Fair-use
         limits are enforced by the service.
+        <span className="block">
+          If you need higher limits, contact us:{' '}
+          <a href="mailto:saxenism@bluethroatlabs.com">
+            saxenism@bluethroatlabs.com
+          </a>
+        </span>
       </p>
     ),
   },

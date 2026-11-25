@@ -1,6 +1,13 @@
 'use client'
 
-import { FormEvent, KeyboardEvent, useId, useRef, useState } from 'react'
+import {
+  FormEvent,
+  KeyboardEvent,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react'
 import type { SubmissionMode, SubmissionSnapshot } from '@/lib/blueskills'
 import { formatBytes } from '@/lib/blueskills'
 import { TurnstileWidget } from '@/components/turnstile-widget'
@@ -28,6 +35,7 @@ export const SubmissionForm = ({
   onSubmitDraft,
   isBusy,
   isSubmitting,
+  isRateLimited,
   turnstileToken,
   turnstileError,
   turnstileResetKey,
@@ -38,6 +46,7 @@ export const SubmissionForm = ({
   onSubmitDraft: (draft: SubmissionDraft) => void
   isBusy: boolean
   isSubmitting: boolean
+  isRateLimited: boolean
   turnstileToken: string | null
   turnstileError: string | null
   turnstileResetKey: number
@@ -53,7 +62,17 @@ export const SubmissionForm = ({
   const pasteRef = useRef<HTMLTextAreaElement>(null)
   const repoRef = useRef<HTMLInputElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const rateLimitAlertRef = useRef<HTMLDivElement>(null)
   const tabPanelId = useId()
+
+  useEffect(() => {
+    if (isRateLimited) {
+      rateLimitAlertRef.current?.scrollIntoView({
+        behavior: 'instant',
+        block: 'nearest',
+      })
+    }
+  }, [isRateLimited])
 
   const selectTab = (mode: SubmissionMode, focus = false) => {
     const index = TABS.findIndex((tab) => tab.id === mode)
@@ -383,11 +402,47 @@ export const SubmissionForm = ({
           </div>
         </section>
 
-        <div className="mt-5 flex flex-col items-stretch justify-between gap-3 border-t border-(--rule) pt-4 sm:flex-row sm:items-center">
-          <p className="m-0 max-w-[66ch] text-xs leading-5 text-(--ink-3) sm:text-sm">
+        <div className="mt-5 flex flex-col items-stretch justify-between gap-3 border-t border-(--rule) pt-4 sm:flex-row sm:flex-wrap sm:items-center">
+          <p className="m-0 max-w-[66ch] text-xs leading-5 text-(--ink-3) sm:flex-1 sm:text-sm">
             Submit public skill content only. Do not include secrets or private
             package contents.
           </p>
+          {isRateLimited && (
+            <div
+              ref={rateLimitAlertRef}
+              role="alert"
+              className="flex scroll-my-4 items-start gap-2.5 border border-(--malicious-border) bg-(--malicious-bg) px-3.5 py-3 text-sm leading-5 text-(--malicious-fg) sm:order-first sm:w-full"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="size-5 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 8v4m0 4h.01" />
+              </svg>
+              <div className="min-w-0">
+                <p className="font-semibold">
+                  You&apos;ve just hit the limits!
+                </p>
+                <p className="mt-1">
+                  Contact us at{' '}
+                  <a
+                    href="mailto:saxenism@bluethroatlabs.com"
+                    className="font-medium wrap-anywhere underline underline-offset-2"
+                  >
+                    saxenism@bluethroatlabs.com
+                  </a>{' '}
+                  to get higher limits.
+                </p>
+              </div>
+            </div>
+          )}
           <button
             type="submit"
             disabled={isBusy || !turnstileToken}

@@ -29,6 +29,9 @@ export const BlueSkillsApp = ({ limits }: BlueSkillsAppProps) => {
   const [turnstileError, setTurnstileError] = useState<string | null>(null)
   const [turnstileResetKey, setTurnstileResetKey] = useState(0)
   const activeRequestId = scan.snapshot?.requestId
+  const isRateLimited =
+    scan.reportState?.kind === 'operational' &&
+    scan.reportState.statusCode === 429
 
   useEffect(() => {
     if (activeRequestId === undefined) return
@@ -73,6 +76,7 @@ export const BlueSkillsApp = ({ limits }: BlueSkillsAppProps) => {
         onSubmitDraft={submitDraft}
         isBusy={scan.isBusy}
         isSubmitting={scan.isSubmitting}
+        isRateLimited={isRateLimited}
         turnstileToken={turnstileToken}
         turnstileError={turnstileError}
         turnstileResetKey={turnstileResetKey}

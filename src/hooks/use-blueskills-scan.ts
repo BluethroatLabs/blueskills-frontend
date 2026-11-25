@@ -73,7 +73,7 @@ function operationalFromError(
         : status === 413
           ? 'Package is too large'
           : status === 429
-            ? 'Scanner is busy'
+            ? 'Scan limit reached'
             : status === 503
               ? 'Scanner is temporarily unavailable'
               : status === null
